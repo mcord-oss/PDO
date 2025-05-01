@@ -12,7 +12,9 @@ if(isset($_SESSION['userlogin'])){
     include_once("connections/connection.php");
     $con = connection();
 
-    $sql = "SELECT * FROM `employees` ORDER BY id DESC";
+    $search = $_GET['query'];
+
+    $sql = "SELECT * FROM `employees` WHERE `id` LIKE '%$search%' || `first_name` LIKE '%$search% ' || `last_name` LIKE '%$search%' || `email` LIKE '%$search%' || `gender` LIKE '%$search%'";
     $stmt = $con->query($sql) or die ($con->error);
     $row = $stmt->fetch_assoc();
 ?>
@@ -33,7 +35,7 @@ if(isset($_SESSION['userlogin'])){
     <?php } ?>
     <h2 style="text-align: center;">System Information</h2>
     <form action="result.php" method="get" class="myForm">
-        <input type="search" name="query" id="query" placeholder="Type Here">
+        <input type="search" name="query" id="query" placeholder="type Here">
         <button type="search" name="btn">Search</button>
     </form>
     <table class="table table-bordered table-hover table-frimary">
